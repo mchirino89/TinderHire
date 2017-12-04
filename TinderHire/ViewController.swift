@@ -110,5 +110,6 @@ class ViewController: UIViewController {
         nameLabel.text = currentEmployee.name
         skillLabel.text = currentEmployee.skill
         genderLabel.text = currentEmployee.sex
+        picImageView.image = currentEmployee.sex == "M" ? #imageLiteral(resourceName: "Male") : #imageLiteral(resourceName: "Female")
     }
 }
