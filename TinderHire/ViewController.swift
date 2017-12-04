@@ -18,9 +18,41 @@ class ViewController: UIViewController {
     @IBOutlet weak var thumbsLabel: UILabel!
     
     var rotationRatio: CGFloat!
+    let employees = [
+        employeeCV(name: "Clara Smith", skill: "Django", sex: "F"),
+        employeeCV(name: "John Harper", skill: "Python", sex: "M"),
+        employeeCV(name: "Sagar Shah", skill: "Django", sex: "M"),
+        employeeCV(name: "Bob Thomas", skill: "React", sex: "M"),
+        employeeCV(name: "Sophie Laura", skill: "React", sex: "F"),
+        employeeCV(name: "Sammie Lopez", skill: "Django", sex: "F"),
+        employeeCV(name: "Connie Jones", skill: "Django", sex: "F"),
+        employeeCV(name: "Camille Rowe", skill: "Django", sex: "F"),
+        employeeCV(name: "Joana Silver", skill: "Python", sex: "F"),
+        employeeCV(name: "Sasha Doe", skill: "Django", sex: "F"),
+        employeeCV(name: "Gaby Simone", skill: "React", sex: "F"),
+        employeeCV(name: "Chloe Isabella", skill: "React", sex: "F"),
+        employeeCV(name: "George Stanley", skill: "Django", sex: "M"),
+        employeeCV(name: "Dominic Hope", skill: "Django", sex: "M"),
+        employeeCV(name: "Sandra Bonhomme", skill: "Django", sex: "F"),
+        employeeCV(name: "Sophie Gerbault", skill: "React", sex: "F"),
+        employeeCV(name: "Sarah Seemore", skill: "React", sex: "F"),
+        employeeCV(name: "Rachel Green", skill: "Django", sex: "F"),
+        employeeCV(name: "Josephine Taylor", skill: "Django", sex: "F"),
+        employeeCV(name: "Jay Jiang", skill: "Django", sex: "M"),
+        employeeCV(name: "Hunter Dickson", skill: "React", sex: "M"),
+        employeeCV(name: "Sam Gupta", skill: "React", sex: "M"),
+        employeeCV(name: "Tom Brady", skill: "Django", sex: "M"),
+        employeeCV(name: "Taylor Thompson", skill: "Django", sex: "F"),
+        employeeCV(name: "Tatianna Marshall", skill: "Django", sex: "F"),
+        employeeCV(name: "Eric Street", skill: "Python", sex: "M"),
+        employeeCV(name: "Marine Simon", skill: "Python", sex: "F"),
+        employeeCV(name: "Ronald Duck", skill: "Pytho", sex: "M"),
+        employeeCV(name: "Jennifer Lopez", skill: "Python", sex: "F")
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getRandomEmployee()
         rotationRatio = (view.frame.width / 2) / 0.3925
     }
 
@@ -54,6 +86,7 @@ class ViewController: UIViewController {
             card.alpha = 0
         }, completion: { _ in
             self.removeCard()
+            self.getRandomEmployee()
             UIView.animate(withDuration: 0.15, animations: {
                 self.cardView.alpha = 1
             })
@@ -70,5 +103,12 @@ class ViewController: UIViewController {
         cardView.center = self.view.center
         cardView.transform = .identity
         thumbsLabel.alpha = 0
+    }
+    
+    private func getRandomEmployee() {
+        let currentEmployee = employees[Int(arc4random_uniform(UInt32(employees.count)))]
+        nameLabel.text = currentEmployee.name
+        skillLabel.text = currentEmployee.skill
+        genderLabel.text = currentEmployee.sex
     }
 }
