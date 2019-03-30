@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ViewStackController.swift
 //  TinderHire
 //
 //  Created by Mauricio Chirino on 4/12/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewStackController: UIViewController {
 
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
