@@ -10,50 +10,20 @@ import UIKit
 
 class ViewStackController: UIViewController {
 
-    @IBOutlet weak var cardView: UIView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var picImageView: UIImageView!
-    @IBOutlet weak var genderLabel: UILabel!
-    @IBOutlet weak var skillLabel: UILabel!
-    @IBOutlet weak var thumbsLabel: UILabel!
+    @IBOutlet private weak var cardView: UIView!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var picImageView: UIImageView!
+    @IBOutlet private weak var genderLabel: UILabel!
+    @IBOutlet private weak var skillLabel: UILabel!
+    @IBOutlet private weak var thumbsLabel: UILabel!
     
-    var rotationRatio: CGFloat!
-    let employees = [
-        employeeCV(name: "Clara Smith", skill: "Django", sex: "F"),
-        employeeCV(name: "John Harper", skill: "Python", sex: "M"),
-        employeeCV(name: "Sagar Shah", skill: "Django", sex: "M"),
-        employeeCV(name: "Bob Thomas", skill: "React", sex: "M"),
-        employeeCV(name: "Sophie Laura", skill: "React", sex: "F"),
-        employeeCV(name: "Sammie Lopez", skill: "Django", sex: "F"),
-        employeeCV(name: "Connie Jones", skill: "Django", sex: "F"),
-        employeeCV(name: "Camille Rowe", skill: "Django", sex: "F"),
-        employeeCV(name: "Joana Silver", skill: "Python", sex: "F"),
-        employeeCV(name: "Sasha Doe", skill: "Django", sex: "F"),
-        employeeCV(name: "Gaby Simone", skill: "React", sex: "F"),
-        employeeCV(name: "Chloe Isabella", skill: "React", sex: "F"),
-        employeeCV(name: "George Stanley", skill: "Django", sex: "M"),
-        employeeCV(name: "Dominic Hope", skill: "Django", sex: "M"),
-        employeeCV(name: "Sandra Bonhomme", skill: "Django", sex: "F"),
-        employeeCV(name: "Sophie Gerbault", skill: "React", sex: "F"),
-        employeeCV(name: "Sarah Seemore", skill: "React", sex: "F"),
-        employeeCV(name: "Rachel Green", skill: "Django", sex: "F"),
-        employeeCV(name: "Josephine Taylor", skill: "Django", sex: "F"),
-        employeeCV(name: "Jay Jiang", skill: "Django", sex: "M"),
-        employeeCV(name: "Hunter Dickson", skill: "React", sex: "M"),
-        employeeCV(name: "Sam Gupta", skill: "React", sex: "M"),
-        employeeCV(name: "Tom Brady", skill: "Django", sex: "M"),
-        employeeCV(name: "Taylor Thompson", skill: "Django", sex: "F"),
-        employeeCV(name: "Tatianna Marshall", skill: "Django", sex: "F"),
-        employeeCV(name: "Eric Street", skill: "Python", sex: "M"),
-        employeeCV(name: "Marine Simon", skill: "Python", sex: "F"),
-        employeeCV(name: "Ronald Duck", skill: "Pytho", sex: "M"),
-        employeeCV(name: "Jennifer Lopez", skill: "Python", sex: "F")
-    ]
+    private var rotationRatio: CGFloat! {
+        return (view.frame.width / 2) / 0.3925
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getRandomEmployee()
-        rotationRatio = (view.frame.width / 2) / 0.3925
     }
 
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
@@ -61,14 +31,14 @@ class ViewStackController: UIViewController {
             return print("Something went wrong with the gesture")
         }
         let pointsMoved = sender.translation(in: view)
-        let scale = min(100/abs(pointsMoved.x), 1)
+        let scale = min(100 / abs(pointsMoved.x), 1)
         card.center = CGPoint(x: view.center.x + pointsMoved.x, y: view.center.y + pointsMoved.y)
-        card.transform = CGAffineTransform(rotationAngle: pointsMoved.x / rotationRatio).scaledBy(x: scale, y: scale)
+        card.transform = CGAffineTransform(rotationAngle: pointsMoved.x / rotationRatio).scaledBy(x: scale,
+                                                                                                  y: scale)
         thumbsLabel.text = pointsMoved.x > 0 ? "👍🏽" : "👎🏽"
         thumbsLabel.alpha = abs(pointsMoved.x) / view.center.x
 
         if sender.state == .ended {
-            
             if card.center.x < 60 {
                 removeCardFromScreen(pickedCard: false, card: card)
                 return
@@ -106,7 +76,7 @@ class ViewStackController: UIViewController {
     }
     
     private func getRandomEmployee() {
-        let currentEmployee = employees[Int(arc4random_uniform(UInt32(employees.count)))]
+        let currentEmployee = EmployeeFactory.getRandom()
         nameLabel.text = currentEmployee.name
         skillLabel.text = currentEmployee.skill
         genderLabel.text = currentEmployee.sex
