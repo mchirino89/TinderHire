@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CardView" customModule="TinderHire" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="gv4-TW-Z5N"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CardView" customModule="TinderHire" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="318" height="572"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -24,7 +28,7 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JlB-uz-ZpM">
                             <rect key="frame" x="0.0" y="382" width="318" height="47"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="39"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="39"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -70,11 +74,12 @@
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="5q1-xJ-n8P"/>
                     <connections>
-                        <outlet property="genderLabel" destination="KBi-2K-PNa" id="fz7-mY-n1O"/>
-                        <outlet property="nameLabel" destination="JlB-uz-ZpM" id="nhG-mM-PmA"/>
-                        <outlet property="picImageView" destination="bqL-n4-fGE" id="vrj-U9-FX3"/>
-                        <outlet property="skillLabel" destination="Nwl-1Y-g9e" id="wEh-aW-UY5"/>
-                        <outlet property="thumbsLabel" destination="EhN-Qr-sRJ" id="eXU-Cg-TME"/>
+                        <outlet property="contentView" destination="iN0-l3-epB" id="uZf-TB-jj9"/>
+                        <outlet property="genderLabel" destination="KBi-2K-PNa" id="cdc-GO-lNQ"/>
+                        <outlet property="nameLabel" destination="JlB-uz-ZpM" id="NGB-DV-RBi"/>
+                        <outlet property="picImageView" destination="bqL-n4-fGE" id="gsP-UF-f3I"/>
+                        <outlet property="skillLabel" destination="Nwl-1Y-g9e" id="Cyz-ck-gP0"/>
+                        <outlet property="thumbsLabel" destination="EhN-Qr-sRJ" id="XmW-Zp-huL"/>
                     </connections>
                 </view>
             </subviews>

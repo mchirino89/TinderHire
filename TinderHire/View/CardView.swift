@@ -9,13 +9,10 @@
 import UIKit
 
 protocol ViewStackRendarable: class {
-    func setInfo(basedOn currentEmployee: EmployeeCV)
-    func toggleSelection(for pointsMoved: CGPoint, from center: CGPoint, and rotation: CGFloat)
-    func remove(from point: CGPoint)
-    func removeFromScreen(pickedCard: Bool, at point: CGPoint, completion: @escaping () -> ())
+    func renewval()
 }
 
-class CardView: UIView {
+class CardView: ReusableView {
 
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var picImageView: UIImageView!
@@ -23,28 +20,11 @@ class CardView: UIView {
     @IBOutlet private weak var skillLabel: UILabel!
     @IBOutlet private weak var thumbsLabel: UILabel!
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        xibSetUp()
-    }
+    weak var delegate: ViewStackRendarable?
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        xibSetUp()
+    override func xibName() -> String {
+        return "CardView"
     }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        xibSetUp()
-    }
-
-    func xibSetUp() {
-        let loadedFromNib: CardView = UIView.fromNib()
-        self.addSubview(loadedFromNib)
-    }
-}
-
-extension CardView: ViewStackRendarable {
 
     func setInfo(basedOn currentEmployee: EmployeeCV) {
         nameLabel.text = currentEmployee.name
@@ -61,7 +41,7 @@ extension CardView: ViewStackRendarable {
         thumbsLabel.alpha = abs(pointsMoved.x) / center.x
     }
 
-    func removeFromScreen(pickedCard: Bool, at point: CGPoint, completion: @escaping () -> ()) {
+    func removeFromScreen(pickedCard: Bool, at point: CGPoint) {
         UIView.animateKeyframes(withDuration: 0.45, delay: 0, options: [.calculationModeCubic], animations: {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.3/0.45, animations: {
                 self.center = CGPoint(x: pickedCard ? self.center.x + 200 : self.center.x - 200,
@@ -73,8 +53,7 @@ extension CardView: ViewStackRendarable {
             })
         }, completion: { _ in
             self.remove(from: point)
-            completion()
-
+            self.delegate?.renewval()
         })
     }
 

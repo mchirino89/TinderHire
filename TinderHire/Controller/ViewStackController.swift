@@ -10,19 +10,15 @@ import UIKit
 
 class ViewStackController: UIViewController {
 
-    @IBOutlet private weak var cardView: CardView! {
-        didSet {
-//            cardView.delegate = self
-        }
-    }
+    @IBOutlet private weak var cardView: CardView!
     private var rotationRatio: CGFloat! {
         return (view.frame.width / 2) / 0.3925
     }
-    private weak var delegate: ViewStackRendarable?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate?.setInfo(basedOn: EmployeeFactory.getRandom())
+        cardView.delegate = self
+        cardView.setInfo(basedOn: EmployeeFactory.getRandom())
     }
 
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
@@ -30,7 +26,7 @@ class ViewStackController: UIViewController {
             return print("Something went wrong with the gesture")
         }
         let pointsMoved = sender.translation(in: view)
-        delegate?.toggleSelection(for: pointsMoved, from: view.center, and: rotationRatio)
+        cardView.toggleSelection(for: pointsMoved, from: view.center, and: rotationRatio)
 
         if sender.state == .ended {
             if card.center.x < 60 {
@@ -45,14 +41,18 @@ class ViewStackController: UIViewController {
     }
 
     private func didPickCard(_ selected: Bool) {
-        delegate?.removeFromScreen(pickedCard: selected, at: view.center) {
-            self.delegate?.setInfo(basedOn: EmployeeFactory.getRandom())
-        }
+        cardView.removeFromScreen(pickedCard: selected, at: view.center)
     }
     
     private func animateCardReposition() {
         UIView.animate(withDuration: 0.3, animations: {
-            self.delegate?.remove(from: self.view.center)
+            self.cardView.remove(from: self.view.center)
         })
+    }
+}
+
+extension ViewStackController: ViewStackRendarable {
+    func renewval() {
+        cardView.setInfo(basedOn: EmployeeFactory.getRandom())
     }
 }
