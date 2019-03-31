@@ -10,20 +10,19 @@ import UIKit
 
 class ViewStackController: UIViewController {
 
-    @IBOutlet private weak var cardView: UIView!
-    @IBOutlet private weak var nameLabel: UILabel!
-    @IBOutlet private weak var picImageView: UIImageView!
-    @IBOutlet private weak var genderLabel: UILabel!
-    @IBOutlet private weak var skillLabel: UILabel!
-    @IBOutlet private weak var thumbsLabel: UILabel!
-    
+    @IBOutlet private weak var cardView: CardView! {
+        didSet {
+//            cardView.delegate = self
+        }
+    }
     private var rotationRatio: CGFloat! {
         return (view.frame.width / 2) / 0.3925
     }
-    
+    private weak var delegate: ViewStackRendarable?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        getRandomEmployee()
+        delegate?.setInfo(basedOn: EmployeeFactory.getRandom())
     }
 
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
@@ -31,55 +30,29 @@ class ViewStackController: UIViewController {
             return print("Something went wrong with the gesture")
         }
         let pointsMoved = sender.translation(in: view)
-        let scale = min(100 / abs(pointsMoved.x), 1)
-        card.center = CGPoint(x: view.center.x + pointsMoved.x, y: view.center.y + pointsMoved.y)
-        card.transform = CGAffineTransform(rotationAngle: pointsMoved.x / rotationRatio).scaledBy(x: scale,
-                                                                                                  y: scale)
-        thumbsLabel.text = pointsMoved.x > 0 ? "👍🏽" : "👎🏽"
-        thumbsLabel.alpha = abs(pointsMoved.x) / view.center.x
+        delegate?.toggleSelection(for: pointsMoved, from: view.center, and: rotationRatio)
 
         if sender.state == .ended {
             if card.center.x < 60 {
-                removeCardFromScreen(pickedCard: false, card: card)
+                didPickCard(false)
                 return
             } else if card.center.x > view.frame.width - 60 {
-                removeCardFromScreen(pickedCard: true, card: card)
+                didPickCard(true)
                 return
             }
             animateCardReposition()
         }
     }
-    
-    private func removeCardFromScreen(pickedCard: Bool, card: UIView) {
-        UIView.animate(withDuration: 0.3, animations: {
-            card.center = CGPoint(x: pickedCard ? card.center.x + 200 : card.center.x - 200, y: card.center.y + 50)
-            card.alpha = 0
-        }, completion: { _ in
-            self.removeCard()
-            self.getRandomEmployee()
-            UIView.animate(withDuration: 0.15, animations: {
-                self.cardView.alpha = 1
-            })
-        })
+
+    private func didPickCard(_ selected: Bool) {
+        delegate?.removeFromScreen(pickedCard: selected, at: view.center) {
+            self.delegate?.setInfo(basedOn: EmployeeFactory.getRandom())
+        }
     }
     
     private func animateCardReposition() {
         UIView.animate(withDuration: 0.3, animations: {
-            self.removeCard()
+            self.delegate?.remove(from: self.view.center)
         })
-    }
-    
-    private func removeCard() {
-        cardView.center = self.view.center
-        cardView.transform = .identity
-        thumbsLabel.alpha = 0
-    }
-    
-    private func getRandomEmployee() {
-        let currentEmployee = EmployeeFactory.getRandom()
-        nameLabel.text = currentEmployee.name
-        skillLabel.text = currentEmployee.skill
-        genderLabel.text = currentEmployee.sex
-        picImageView.image = currentEmployee.sex == "M" ? #imageLiteral(resourceName: "Male") : #imageLiteral(resourceName: "Female")
     }
 }
